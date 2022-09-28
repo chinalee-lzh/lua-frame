@@ -28,6 +28,6 @@ local c_item = class({
   end,
 }, 'PoolItem')
 
-function classpool(__class, ...)
+return function(__class, ...)
   return class(__class, c_item, ...)
 end

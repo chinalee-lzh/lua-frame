@@ -1,3 +1,6 @@
+local classpool = require 'utils.classpool'
+local List = require 'utils.list'
+
 local eIter = enum {'v', 'kv'}
 local c_iter = class {
   new = function(self, d)
@@ -41,6 +44,7 @@ local clear = function(self)
   self.__keylist:clear()
 end
 
+local Dict
 Dict = classpool({
   ctor = function(self)
     self.__keylist = List()
@@ -93,3 +97,5 @@ Dict = classpool({
   loop = function(self, ...) return loop(self, eIter.kv, ...) end,
   loopv = function(self, ...) return loop(self, eIter.v, ...) end,
 }, 'Dict')
+
+return Dict

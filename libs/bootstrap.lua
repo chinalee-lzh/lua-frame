@@ -1,6 +1,0 @@
-require 'libs.type'
-require 'libs.ensure'
-require 'libs.function'
-require 'libs.string'
-require 'libs.table'
-require 'libs.class'

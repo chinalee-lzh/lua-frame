@@ -1,8 +1,10 @@
+local classpool = require 'utils.classpool'
+
 local create, resume, yield, status, running, wrap
   = coroutine.create, coroutine.resume, coroutine.yield, coroutine.status, coroutine.running, coroutine.wrap
 local pack, unpack = table.pack, table.unpack
 
-Thread = classpool({
+return classpool({
   ctor = function(self)
     self.fn = gf_empty
     self.co = create(function()

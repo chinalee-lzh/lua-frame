@@ -1,4 +1,4 @@
-function class(__class, ...)
+return function(__class, ...)
   local sz = select('#', ...)
   local name
   if sz > 0 then name = select(sz, ...) end
