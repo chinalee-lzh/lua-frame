@@ -1,5 +1,3 @@
-local classpool = require 'utils.classpool'
-
 local eIter = enum {'v', 'iv'}
 local c_iter = class {
   __checkFree = function(self) return not self.__free__ end,
@@ -71,15 +69,13 @@ local clear = function(self) setsize(self, 0) end
 local valididx = function(self, idx) return isnumber(idx) and idx > 0 and idx <= self.__n end
 
 local List
-List = classpool({
-  ctor = function(self)
+List = class({
+  new = function(self)
     self.__container = {}
     self.__n = 0
     self.__iter = c_iter(self)
   end,
   clear = clear,
-  init = clear,
-  free = clear,
   size = function(self) return self.__n end,
   at = function(self, idx) if valididx(idx) then return get(self, idx) end end,
   head = function(self) return self:at(1) end,

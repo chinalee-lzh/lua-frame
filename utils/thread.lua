@@ -1,12 +1,10 @@
-local classpool = require 'utils.classpool'
-
 local create, resume, yield, status, running, wrap
   = coroutine.create, coroutine.resume, coroutine.yield, coroutine.status, coroutine.running, coroutine.wrap
 local pack, unpack = table.pack, table.unpack
 
-return classpool({
-  ctor = function(self)
-    self.fn = gf_empty
+return class({
+  new = function(self, fn)
+    self.fn = ENSURE.func(fn ,gf_empty)
     self.co = create(function()
       while true do
         local rst = pack(yield())

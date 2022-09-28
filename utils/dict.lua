@@ -1,4 +1,3 @@
-local classpool = require 'utils.classpool'
 local List = require 'utils.list'
 
 local eIter = enum {'v', 'kv'}
@@ -45,15 +44,13 @@ local clear = function(self)
 end
 
 local Dict
-Dict = classpool({
-  ctor = function(self)
+Dict = class({
+  new = function(self)
     self.__keylist = List()
     self.__container = {}
     self.__iter = c_iter(self)
   end,
   clear = clear,
-  init = clear,
-  free = clear,
   size = function(self) return self.__keylist:size() end,
   get = function(self, key) if notnil(key) then return self.__container[key], key end end,
   exist = function(self, key) return notnil(self:get(key)) end,
