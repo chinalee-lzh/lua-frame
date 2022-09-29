@@ -49,3 +49,36 @@ function property(class, propname, getter, setter)
     end
   end
 end
+
+function classpool(__class, ...)
+  local cls = class(__class, ...)
+  local pool = {sz = 0, cache = {}}
+  pool.get = function(...)
+    local obj
+    if pool.sz == 0 then
+      obj = cls(...)
+    else
+      obj = pool.cache[pool.sz]
+      pool.cache[pool.sz] = nil
+      pool.sz = pool.sz-1
+      assert(obj.__free__, string.format('get a busy item from pool. %s', cls.__cname))
+      safecall(obj.ctor, obj, ...)
+    end
+    obj.__free__ = false
+    return obj
+  end
+  pool.free = function(obj)
+    assert(obj.__class == cls, string.format('free obj is not from this class. %s', cls.__cname))
+    assert(not obj.__free__, string.format('duplicate free. %s', cls.__cname))
+    safecall(obj.free, obj)
+    obj.__free__ = true
+    pool.sz = pool.sz+1
+    pool.cache[pool.sz] = obj
+  end
+  pool.clear = function(obj)
+    for i = 1, pool.sz do
+      pool.cache[i] = nil
+    end
+  end
+  cls.Pool = pool
+end

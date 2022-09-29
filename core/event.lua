@@ -1,17 +1,16 @@
-local pool = Pool()
 local c_listener = classpool {
-  ctor = function(self) self.params = List() end,
-  init = function(self, counter, evtid, func, ...)
+  new = function(self, ...) self:ctor() end,
+  ctor = function(self, counter, evtid, func, ...)
     self.counter = counter
     self.evtid = evtid
     self.func = func
-    self.params:pack(...)
     self.dirty = false
     self.busy = false
+    self.params = List.Pool.get()
+    self.params:pack(...)
   end,
-  execute = function(self, ...)
-    self.func(self.params:unpack(), ...)
-  end,
+  free = function(self) List.Pool.free(self.params) end,
+  execute = function(self, ...) self.func(self.params:unpack(), ...) end,
   setbusy = function(self, flag) self.busy = flag end,
   isbusy = function(self) return self.busy end,
   setdirty = function(self) self.dirty = true end,
@@ -23,7 +22,7 @@ local freeListener = function(self, listener)
   local evtid = listener.evtid
   self.listeners[counter] = nil
   self.events[evtid].d:del(counter)
-  pool.free(listener)
+  c_listener.Pool.free(listener)
 end
 return class {
   new = function(self)
@@ -40,7 +39,7 @@ return class {
       }
       self.events[evtid] = events
     end
-    local listener = pool.get(c_listener, self.counter, evtid, func, ...)
+    local listener = c_listener.Pool.get(self.counter, evtid, func, ...)
     self.listeners[self.counter] = listener
     events.d:add(self.counter, listener)
     return self.counter

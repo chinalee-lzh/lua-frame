@@ -6,8 +6,6 @@ require 'libs.table'
 require 'libs.class'
 require 'libs.sandbox'
 
-classpool = require 'utils.classpool'
-Pool = require 'utils.pool'
 List = require 'utils.list'
 Dict = require 'utils.Dict'
 Thread = require 'utils.thread'

@@ -191,6 +191,7 @@ function table.dump(tbl)
   local cache = {}
   return iterTbl(tbl, cache)
 end
+function table.clear(tbl) for k in pairs(tbl) do tbl[k] = nil end end
 
 gt_empty = table.readonly {}
 gt_weakk = table.readonly {__mode = 'k'}

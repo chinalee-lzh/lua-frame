@@ -38,19 +38,19 @@ local loop = function(self, ...)
   self.__iter:init(...)
   return self.__iter.loop, self.__iter
 end
-local clear = function(self)
-  for k in self.__keylist:loopv() do self.__container[k] = nil end
-  self.__keylist:clear()
-end
 
 local Dict
-Dict = class({
+Dict = classpool({
   new = function(self)
-    self.__keylist = List()
     self.__container = {}
     self.__iter = c_iter(self)
   end,
-  clear = clear,
+  ctor = function(self) self.__keylist = List.Pool.get() end,
+  free = function(self)
+    table.clear(self.__container)
+    List.Pool.free(self.__keylist)
+  end,
+  clear = function(self) self.__keylist:clear() end,
   size = function(self) return self.__keylist:size() end,
   get = function(self, key) if notnil(key) then return self.__container[key], key end end,
   exist = function(self, key) return notnil(self:get(key)) end,
