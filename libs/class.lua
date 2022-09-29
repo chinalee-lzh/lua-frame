@@ -1,4 +1,4 @@
-return function(__class, ...)
+function class(__class, ...)
   local sz = select('#', ...)
   local name
   if sz > 0 then name = select(sz, ...) end
@@ -28,4 +28,24 @@ return function(__class, ...)
   end
   setmetatable(__class, mtclass)
   return __class
+end
+
+function property(class, propname, getter, setter)
+  if string.empty(propname) then return end
+  getter = ENSURE.boolean(getter, false)
+  setter = ENSURE.boolean(setter, false)
+  if getter then
+    local fname = string.format('get%s', propname)
+    local fn = rawget(class, fname)
+    if notfunction(fn) then
+      class[fname] = function(self) return self[propname] end
+    end
+  end
+  if setter then
+    local fname = string.format('set%s', propname)
+    local fn = rawget(class, fname)
+    if notfunction(fn) then
+      class[fname] = function(self, value) self[propname] = value end
+    end
+  end
 end

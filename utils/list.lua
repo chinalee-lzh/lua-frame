@@ -1,3 +1,5 @@
+local unpack = table.unpack
+
 local eIter = enum {'v', 'iv'}
 local c_iter = class {
   __checkFree = function(self) return not self.__free__ end,
@@ -150,6 +152,26 @@ List = class({
   copyarray = function(self, array, i, j)
     self:clear()
     return self:joinarray(array, i, j)
+  end,
+  copyArgs = function(self, ...)
+    self:clear()
+    local n = select('#', ...)
+    for i = 1, n do
+      self:add(select(i, ...))
+    end
+    return self
+  end,
+  pack = function(self, ...)
+    self:clear()
+    local n = select('#', ...)
+    for i = 1, n do
+      self:add(select(i, ...))
+    end
+    return self
+  end,
+  unpack = function(self)
+    self.__container[self:size()+1] = nil
+    return unpack(self.__container)
   end,
   sort = function(self, fn, ...) return sort(self, 1, self:size(), fn, ...) end,
   concat = function(self, sep, i, j)

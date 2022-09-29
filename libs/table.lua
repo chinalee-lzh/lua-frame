@@ -51,7 +51,7 @@ function table.copy(tbl)
 end
 function table.deepcopy(tbl, cache)
   if nottable(tbl) then return tbl end
-  cache = ENSURE.table(cache, {})
+  cache = cache or {}
   if notnil(cache[tbl]) then return cache[tbl] end
   local rst = {}
   cache[tbl] = rst
@@ -139,6 +139,58 @@ function table.slice(tbl, from, to)
   return rst
 end
 function table.empty(tbl) return isnil(next(tbl)) end
+local iterTbl
+iterTbl = function(tbl, cache, indent)
+  if cache[tbl] then return '__cached__' end
+  cache[tbl] = true
+  if isfunction(tbl.__dump__) then return tbl:__dump__(indent) end
+  local newline = '\r\n'
+  local str2dump = string.format('%s {%s', tbl, newline)
+  indent = ENSURE.number(indent, 0)+2
+  local a, b, c
+  if isfunction(tbl.loop) then
+    a, b, c = tbl:loop()
+  else
+    a, b, c = paris(tbl)
+  end
+  for k, v in a, b, c do
+    if notfunction(tbl.__skipdump__) or not tbl:__skipdump__(k, v) then
+      local halfnote = string.rep('-', indent//2)
+      str2dump = str2dump .. string.format('%s%s%s', halfnote, indent//2, halfnote)
+      if isfunction(tbl.__dumpk__) then
+        str2dump = str2dump .. tbl:__dumpk__(k, v)
+      elseif isnumber(k) then
+        str2dump = str2dump .. string.format('[%s]', k)
+      else
+        str2dump = str2dump .. tostring(k)
+      end
+      str2dump = str2dump .. ' = '
+      if isfunction(tbl.__dumpv__) then
+        str2dump = str2dump .. tbl:__dumpv__(k, v)
+      elseif isnumber(v) then
+        str2dump = str2dump .. tostring(v)
+      elseif istable(v) then
+        str2dump = str2dump .. iterTbl(v, indent)
+      else
+        str2dump = str2dump .. string.format("'%s'", v)
+      end
+      str2dump = str2dump .. newline
+    end    
+  end
+  indent = indent-2
+  if indent//2 > 0 then
+    local halfnote = string.rep('-', indent//2)
+    str2dump = str2dump .. string.format('%s%s%s}', halfnote, indent//2, halfnote)
+  else
+    str2dump = str2dump .. '}'
+  end
+  return str2dump
+end
+function table.dump(tbl)
+  if nottable(tbl) then return end
+  local cache = {}
+  return iterTbl(tbl, cache)
+end
 
 gt_empty = table.readonly {}
 gt_weakk = table.readonly {__mode = 'k'}
