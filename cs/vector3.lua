@@ -23,6 +23,7 @@ Vector3 = classpool({
     self.x, self.y, self.z = ENSURE.number(x, 0), ENSURE.number(y, 0), ENSURE.number(z, 0)
     return self
   end,
+  unpack = function(self) return self.x, self.y, self.z end,
   get = function(self) return self.x, self.y, self.z end,
   sqMagnitude = function(self) return self.x^2+self.y^2+self.z^2 end,
   magnitude = function(self) return sqrt(self:sqrMagnitude()) end,

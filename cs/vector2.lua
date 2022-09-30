@@ -13,6 +13,7 @@ Vector2 = classpool({
     self.x, self.y = ENSURE.number(x, 0), ENSURE.number(y, 0)
     return self
   end,
+  unpack = function(self) return self.x, self.y end,
   get = function(self) return self.x, self.y end,
   sqMagnitude = function(self) return self.x*self.x+self.y*self.y end,
   magnitude = function(self) return sqrt(self:sqrMagnitude()) end,

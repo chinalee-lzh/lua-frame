@@ -1,5 +1,6 @@
 local List = require 'utils.list'
 local Dict = require 'utils.dict'
+local CO = require 'utils.coroutine'
 
 local eType = enum {'second', 'frame'}
 
@@ -41,14 +42,18 @@ local delTimer = function(self, id)
   self.timers:del(id)
   c_item.Pool.free(timer)
 end
+local delay = function(self, ...) return addTimer(self, eType.second, ...) end
+local step = function(self, ...) return addTimer(self, eType.frame, ...) end
 return class({
   new = function(self, fnFrame)
     self.id = 0
     self.timers = Dict.Pool.get()
     self.rmlist = List.Pool.get()
   end,
-  delay = function(self, ...) return addTimer(self, eType.second, ...) end,
-  step = function(self, ...) return addTimer(self, eType.frame, ...) end,
+  delay = delay,
+  delay_sync = CO.a2s(delay, 5),
+  step = step,
+  step_sync = CO.a2s(step, 5),
   remove = function(self, id)
     local timer = self.timers:get(id)
     if isnil(timer) then return end

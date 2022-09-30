@@ -67,13 +67,17 @@ function classpool(__class, ...)
     obj.__free__ = false
     return obj
   end
-  pool.free = function(obj)
-    assert(obj.__class == cls, string.format('free obj is not from this class. %s', cls.__cname))
-    assert(not obj.__free__, string.format('duplicate free. %s', cls.__cname))
-    safecall(obj.free, obj)
-    obj.__free__ = true
-    pool.sz = pool.sz+1
-    pool.cache[pool.sz] = obj
+  pool.free = function(...)
+    local n = select('#', ...)
+    for i = 1, n do
+      local obj = select(i, ...)
+      assert(obj.__class == cls, string.format('free obj is not from this class. %s', cls.__cname))
+      assert(not obj.__free__, string.format('duplicate free. %s', cls.__cname))
+      safecall(obj.free, obj)
+      obj.__free__ = true
+      pool.sz = pool.sz+1
+      pool.cache[pool.sz] = obj
+    end
   end
   pool.clear = function(obj)
     for i = 1, pool.sz do
