@@ -62,7 +62,7 @@ function classpool(__class, ...)
       pool.cache[pool.sz] = nil
       pool.sz = pool.sz-1
       assert(obj.__free__, string.format('get a busy item from pool. %s', cls.__cname))
-      safecall(obj.ctor, obj, ...)
+      safecall(obj.init, obj, ...)
     end
     obj.__free__ = false
     return obj

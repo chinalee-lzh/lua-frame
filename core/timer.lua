@@ -1,8 +1,11 @@
+local List = require 'utils.list'
+local Dict = require 'utils.dict'
+
 local eType = enum {'second', 'frame'}
 
 local c_item = classpool {
-  new = function(...) self:ctor(...) end,
-  ctor = function(id, type, born, interval, loop, fn, ...)
+  new = function(...) self:init(...) end,
+  init = function(id, type, born, interval, loop, fn, ...)
     self.id = id
     self.type = type
     self.born = born

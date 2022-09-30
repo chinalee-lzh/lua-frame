@@ -3,7 +3,7 @@ local sqrt, lerp, max, min = math.sqrt, math.lerp, math.max, math.min
 local Vector2
 Vector2 = classpool({
   new = function(self, x, y) self:set(x, y) end,
-  ctor = function(self, x, y) self:set(x, y) end,
+  init = function(self, x, y) self:set(x, y) end,
   clone = function(self) return Vector2.Clone(self) end,
   copy = function(self, vec)
     self.x, self.y = vec.x, vec.y

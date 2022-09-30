@@ -6,7 +6,3 @@ require 'libs.table'
 require 'libs.math'
 require 'libs.class'
 require 'libs.sandbox'
-
-List = require 'utils.list'
-Dict = require 'utils.Dict'
-Thread = require 'utils.thread'

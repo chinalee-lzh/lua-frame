@@ -13,7 +13,7 @@ return classpool({
     end)
     self:resume()
   end,
-  ctor = function(self, fn) self.fn = fn end,
+  init = function(self, fn) self.fn = fn end,
   resume = function(self, ...) resume(self.co, ...) end,
   start = function(self, ...) self:resume(...) end,
   status = function(self) return status(self.co) end,

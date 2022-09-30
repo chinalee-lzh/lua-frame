@@ -1,6 +1,9 @@
+local List = require 'utils.list'
+local Dict = require 'utils.dict'
+
 local c_listener = classpool {
-  new = function(self, ...) self:ctor() end,
-  ctor = function(self, counter, evtid, func, ...)
+  new = function(self, ...) self:init() end,
+  init = function(self, counter, evtid, func, ...)
     self.counter = counter
     self.evtid = evtid
     self.func = func

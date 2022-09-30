@@ -45,7 +45,7 @@ Dict = classpool({
     self.__container = {}
     self.__iter = c_iter(self)
   end,
-  ctor = function(self) self.__keylist = List.Pool.get() end,
+  init = function(self) self.__keylist = List.Pool.get() end,
   free = function(self)
     table.clear(self.__container)
     List.Pool.free(self.__keylist)

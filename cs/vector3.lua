@@ -13,7 +13,7 @@ end
 local Vector3
 Vector3 = classpool({
   new = function(self, x, y, z) self:set(x, y, z) end,
-  ctor = function(self, x, y, z) self:set(x, y, z) end,
+  init = function(self, x, y, z) self:set(x, y, z) end,
   clone = function(self) return Vector3.Clone(self) end,
   copy = function(self, vec)
     self.x, self.y, self.z = vec.x, vec.y, vec.z
