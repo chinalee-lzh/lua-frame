@@ -18,8 +18,6 @@ return class {
   end,
   addSystem = function(self, sys)
   end,
-  delSystem = function(self, sys)
-  end,
   addEntity = function(self, entity)
     entity.idxWorld = #self.entities+1
     self.entities[entity.idxWorld] = entity

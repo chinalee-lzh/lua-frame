@@ -32,17 +32,18 @@ end
 
 function property(class, propname, getter, setter)
   if string.empty(propname) then return end
-  getter = ENSURE.boolean(getter, false)
-  setter = ENSURE.boolean(setter, false)
+  getter = ENSURE.boolean(getter, true)
+  setter = ENSURE.boolean(setter, true)
+  local fsuffix = string.format('%s%s', string.upper(string.sub(propname, 1, 1)), string.sub(propname, 2))
   if getter then
-    local fname = string.format('get%s', propname)
+    local fname = string.format('get%s', fsuffix)
     local fn = rawget(class, fname)
     if notfunction(fn) then
       class[fname] = function(self) return self[propname] end
     end
   end
   if setter then
-    local fname = string.format('set%s', propname)
+    local fname = string.format('set%s', fsuffix)
     local fn = rawget(class, fname)
     if notfunction(fn) then
       class[fname] = function(self, value) self[propname] = value end
