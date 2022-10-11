@@ -29,6 +29,12 @@ return class {
     self.entities[idx] = self.entities[sz]
     self.entities[sz] = nil
   end,
+  addSys = function(self, sys)
+    if util.notsys(sys) then return end
+    local idx = #self.systems+1
+    self.systems[idx] = sys
+    sys:setWorldIdx(idx)
+  end,
   requireAll = function(self, ...) return createFilter('', 'and', ...) end,
   requireAny = function(self, ...) return createFilter('', 'or', ...) end,
   rejectAll = function(self, ...) return createFilter('not', 'or', ...) end,
