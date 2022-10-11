@@ -32,30 +32,36 @@ c_go = classpool({
   getlpos = function(self) return vector3.get():copy(self.lpos) end,
   getlpos_xyz = function(self) return self.lpos:unpack() end,
   setlpos = function(self, pos, sync)
+    sync = ENSURE.boolean(sync, true)
     self.lpos:copy(pos)
     if sync then self:synclpos() end
   end,
   setlpos_xyz = function(self, x, y, z, sync)
+    sync = ENSURE.boolean(sync, true)
     self.lpos:set(x, y, z)
     if sync then self:synclpos() end
   end,
   getpos = function(self) return vector3.get():copy(self.pos) end,
   getpos_xyz = function(self) return self.pos:unpack() end,
   setpos = function(self, pos, sync)
+    sync = ENSURE.boolean(sync, true)
     self.pos:copy(pos)
     if sync then self:syncpos() end
   end,
   setpos_xyz = function(self, x, y, z, sync)
+    sync = ENSURE.boolean(sync, true)
     self.pos:set(x, y, z)
     if sync then self:syncpos() end
   end,
   getscale = function(self) return vector3.get():copy(self.scale) end,
   getscale_xyz = function(self) return self.scale:unpack() end,
   setscale = function(self, scale, sync)
+    sync = ENSURE.boolean(sync, true)
     self.scale:copy(scale)
     if sync then self:syncscale() end
   end,
   setscale_xyz = function(self, x, y, z, sync)
+    sync = ENSURE.boolean(sync, true)
     self.scale:set(x, y, z)
     if sync then self:syncscale() end
   end

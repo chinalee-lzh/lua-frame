@@ -1,5 +1,5 @@
 local raw_require = require
-rawset(_G, 'import', nil)
+rawset(_G, 'require', nil)
 
 local cache = {}
 function import(module, notcache)
@@ -12,4 +12,8 @@ function import(module, notcache)
     end
   end
   return rst
+end
+
+function clearimport()
+  cache = {}
 end
