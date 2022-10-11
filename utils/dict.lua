@@ -1,4 +1,4 @@
-local List = require 'utils.list'
+local List = import 'utils.list'
 
 local eIter = enum {'v', 'kv'}
 local c_iter = class {

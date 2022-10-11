@@ -1,11 +1,12 @@
-require 'libs.type'
-require 'libs.ensure'
-require 'libs.function'
-require 'libs.string'
-require 'libs.table'
-require 'libs.math'
-require 'libs.class'
-require 'libs.sandbox'
+dofile 'libs/import.lua'
+
+import 'libs.type'
+import 'libs.ensure'
+import 'libs.function'
+import 'libs.string'
+import 'libs.table'
+import 'libs.math'
+import 'libs.class'
 
 setmetatable(_G, {
   __index = function(_, k)

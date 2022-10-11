@@ -1,4 +1,4 @@
-local csapp = require('unity.interface').Application
+local csapp = import('unity.interface').Application
 
 local isEditor, dataPath, persistentDataPath, streamingAssetsPath, frameRate
 

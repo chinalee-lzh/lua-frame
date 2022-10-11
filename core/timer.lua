@@ -1,6 +1,6 @@
-local List = require 'utils.list'
-local Dict = require 'utils.dict'
-local CO = require 'utils.coroutine'
+local List = import 'utils.list'
+local Dict = import 'utils.dict'
+local CO = import 'utils.coroutine'
 
 local eType = enum {'second', 'frame'}
 

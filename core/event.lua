@@ -1,5 +1,5 @@
-local List = require 'utils.list'
-local Dict = require 'utils.dict'
+local List = import 'utils.list'
+local Dict = import 'utils.dict'
 
 local c_listener = classpool {
   new = function(self, ...) self:init() end,

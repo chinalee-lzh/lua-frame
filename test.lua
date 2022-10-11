@@ -1,2 +1,1 @@
-local str = 'hello'
-print(str[1])
+dofile 'bootstrap.lua'

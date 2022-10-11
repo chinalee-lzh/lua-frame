@@ -1,4 +1,4 @@
-local csprefs = require('unity.interface').PlayerPrefs
+local csprefs = import('unity.interface').PlayerPrefs
 
 return {
   deleteAll = function() return csprefs.DeleteAll() end,

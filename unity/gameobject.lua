@@ -1,5 +1,5 @@
-local util = require 'unity.util'
-local vector3 = require('unity.vector3').Pool
+local util = import 'unity.util'
+local vector3 = import('unity.vector3').Pool
 
 local c_go
 c_go = classpool({

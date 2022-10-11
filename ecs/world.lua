@@ -1,4 +1,4 @@
-local util = require 'ecs.util'
+local util = import 'ecs.util'
 
 local createFilter = function(prefix, seperator, ...)
   local n = select('#', ...)

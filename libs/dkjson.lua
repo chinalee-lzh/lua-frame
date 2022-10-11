@@ -44,7 +44,7 @@ SOFTWARE.
 -- global dependencies:
 local pairs, type, tostring, tonumber, getmetatable, setmetatable, rawset =
       pairs, type, tostring, tonumber, getmetatable, setmetatable, rawset
-local error, require, pcall, select = error, require, pcall, select
+local error, import, pcall, select = error, import, pcall, select
 local floor, huge = math.floor, math.huge
 local strrep, gsub, strsub, strbyte, strchar, strfind, strlen, strformat =
       string.rep, string.gsub, string.sub, string.byte, string.char,
@@ -591,7 +591,7 @@ function json.decode (str, pos, nullval, ...)
 end
 
 function json.use_lpeg ()
-  local g = require ("lpeg")
+  local g = import ("lpeg")
 
   if g.version() == "0.11" then
     error "due to a bug in LPeg 0.11, it cannot be used for JSON matching"
@@ -696,7 +696,7 @@ function json.use_lpeg ()
 
   json.using_lpeg = true
 
-  return json -- so you can get the module using json = require "dkjson".use_lpeg()
+  return json -- so you can get the module using json = import "dkjson".use_lpeg()
 end
 
 if always_try_using_lpeg then
