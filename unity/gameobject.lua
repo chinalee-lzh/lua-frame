@@ -22,7 +22,7 @@ c_go = classpool({
     if string.empty(path) then return self end
     path = path:trim():gsub('%.', '/')
     local rst = self.trans:Find(path)
-    if notNull(rst) then
+    if util.notNull(rst) then
       return c_go.Pool.get(rst)
     end
   end,
