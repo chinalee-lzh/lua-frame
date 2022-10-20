@@ -2,10 +2,7 @@ local create, resume, yield, status, running, wrap
   = coroutine.create, coroutine.resume, coroutine.yield, coroutine.status, coroutine.running, coroutine.wrap
 local pack, unpack, insert = table.pack, table.unpack, table.insert
 
-local call = function(fn, ...)
-  local co = create(fn)
-  resume(co, ...)
-end
+local call = function(fn, ...) return resume(create(fn), ...) end
 local wrap = function(fn) return function(...) call(fn, ...) end end
 local a2s = function(fnasync, callback_pos)
   return function(...)
