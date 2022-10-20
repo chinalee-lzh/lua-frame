@@ -1,19 +1,24 @@
-local raw_require = require
+rawset(_G, 'raw_require', require)
 rawset(_G, 'require', nil)
 
+local KEY_DEFAULT = '__default'
+
 local cache = {}
-function import(module, notcache)
-  local rst = cache[module]
+function import(module, category, notcache)
+  category = category or KEY_DEFAULT
+  cache[category] = cache[category] or {}
+  local rst = cache[category][module]
   if rst == nil then
-    rst = raw_require(module)
-    package.loaded[module] = nil
+    local path = string.format('%s.lua', module:gsub('%.', '/'))
+    rst = dofile(path)
     if not notcache then
-      cache[module] = rst
+      cache[category][module] = rst
     end
   end
   return rst
 end
 
-function clearimport()
-  cache = {}
+function clearimport(category)
+  category = category or KEY_DEFAULT
+  cache[category] = {}
 end

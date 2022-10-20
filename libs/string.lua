@@ -24,14 +24,15 @@ end
 function string.empty(str) return notstring(str) or str == '' end
 function string.at(str, idx)
   if isnumber(idx) then
+    if idx < 0 then idx = #str+idx+1 end
     return sub(str, idx, idx)
   end
 end
 function string.replace(str, idx, s)
-  if notnumber(idx) or notstring(s) then return end
+  if notnumber(idx) or notstring(s) then return str end
   local sz = len(str)
   if idx < 0 then idx = sz+idx+1 end
-  if idx < 1 or idx > sz then return end
+  if idx < 1 or idx > sz then return str end
   return format('%s%s%s', str:sub(1, idx-1), s, str:sub(idx+1))
 end
 function string.join(...) return table.concat({...}, '') end

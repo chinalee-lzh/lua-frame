@@ -1,14 +1,8 @@
-function class(__class, ...)
-  local sz = select('#', ...)
-  local name
-  if sz > 0 then name = select(sz, ...) end
-  local super = {...}
-  if isstring(name) then
-    super[#super] = nil
-  end
-  __class.__super = super
-  __class.__cname = name
+function class(__class)
+  __class = __class or {}
+  __class.__cname = __class.__cname or 'anonymous class'
   local mtclass = {}
+  local super = __class.__super or {}
   if #super > 0 then
     mtclass.__index = function(_, k)
       for i = 1, #super do
@@ -51,8 +45,8 @@ function property(class, propname, getter, setter)
   end
 end
 
-function classpool(__class, ...)
-  local cls = class(__class, ...)
+function classpool(__class)
+  local cls = class(__class)
   local pool = {sz = 0, cache = {}}
   pool.get = function(...)
     local obj
@@ -86,4 +80,5 @@ function classpool(__class, ...)
     end
   end
   cls.Pool = pool
+  return cls
 end
