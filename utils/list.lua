@@ -6,11 +6,14 @@ local c_iter = class {
     self.fns = setmetatable({}, gt_weakv)
     self.l = l
   end,
-  init = function(type, ...)
+  init = function(self, type, ...)
     self.type = type
     self.idx = 0
     self.sz = select('#', ...)
-    for i = 1, self.sz do self.fns[i] = select(i, ...) end
+    for i = 1, self.sz do
+      self.fns[i] = select(i, ...)
+      print('self.fns[i]', i, self.fns[i])
+    end
     return self
   end,
   loop = function(self)
@@ -35,7 +38,7 @@ local c_iter = class {
 }
 
 local loopwith = function(self, ...)
-  self.__iter:init(self, ...)
+  self.__iter:init(...)
   return self.__iter.loop, self.__iter
 end
 local loop = function(self, idx)
@@ -84,13 +87,10 @@ List = classpool {
       self:insert(e)
     end
   end,
-  free = function(self)
-    self:clear()
-    table.clear(self.__container)
-  end,
+  free = function(self) self:clear() end,
   clear = function(self) setsize(self, 0) end,
   size = function(self) return self.__n end,
-  at = function(self, idx) if valididx(idx) then return get(self, idx) end end,
+  at = function(self, idx) if valididx(self, idx) then return get(self, idx) end end,
   head = function(self) return self:at(1) end,
   tail = function(self) return self:at(self:size()) end,
   exist = function(self, e)
@@ -116,11 +116,11 @@ List = classpool {
   end,
   add = function(self, ...) return self:insert(...) end,
   set = function(self, idx, e)
-    if isnil(e) or not valididx(idx) then return end
+    if isnil(e) or not valididx(self, idx) then return end
     set(self, idx, e)
   end,
   removeat = function(self, idx, keeporder)
-    if not valididx(idx) then return end
+    if not valididx(self, idx) then return end
     local sz = self:size()
     local e = get(self, idx)
     if idx < sz then
@@ -140,20 +140,20 @@ List = classpool {
   end,
   removehead = function(self, keeporder) return self:removeat(1, keeporder) end,
   removetail = function(self) setsize(self, self:size()-1) end,
-  remove2tail = function(self, idx) if valididx(idx) then setsize(self, idx-1) end end,
+  remove2tail = function(self, idx) if valididx(self, idx) then setsize(self, idx-1) end end,
   join = function(self, l, i, j)
     if nottable(l) then return end
     if l.__class ~= List then return end
     i = ENSURE.number(i, 1)
     j = ENSURE.number(j, l:size())
-    for idx = i, j do self:insert(l:at(i)) end
+    for idx = i, j do self:insert(l:at(idx)) end
     return self
   end,
   joinarray = function(self, array, i, j)
     if nottable(array) then return end
     i = ENSURE.number(i, 1)
     j = ENSURE.number(j, #array)
-    for idx = i, j do self:insert(array[i]) end
+    for idx = i, j do self:insert(array[idx]) end
     return self
   end,
   copy = function(self, l, i, j)
@@ -188,8 +188,6 @@ List = classpool {
     str = str .. tostring(self:at(j))
     return str
   end,
-  getiter = function(...) return self.__iter:init(eIter.iv, ...) end,
-  getiterv = function(...) return self.__iter:init(eIter.v, ...) end,
   loop = function(self, ...)
     local n = select('#', ...)
     if n == 0 then
@@ -201,7 +199,7 @@ List = classpool {
   loopv = function(self, ...) return loopwith(self, eIter.v, ...) end,
   swap = function(self, i, j)
     if i == j then return end
-    if not valididx(i) or not valididx(j) then return end
+    if not valididx(self, i) or not valididx(self, j) then return end
     local ei, ej = self:at(i), self:at(j)
     self:set(i, ej)
     self:set(j, ei)

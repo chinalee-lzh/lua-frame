@@ -6,7 +6,7 @@ local c_iter = class {
     self.fns = setmetatable({}, gt_weakv)
     self.d = d
   end,
-  init = function(type, ...)
+  init = function(self, type, ...)
     self.type = type
     self.idx = 0
     self.sz = select('#', ...)
@@ -45,10 +45,11 @@ Dict = classpool {
   new = function(self)
     self.__container = {}
     self.__iter = c_iter(self)
+    self:init()
   end,
   init = function(self) self.__keylist = List.Pool.get() end,
   free = function(self)
-    table.clear(self.__container)
+    self.__container = {}
     List.Pool.free(self.__keylist)
   end,
   clear = function(self) self.__keylist:clear() end,
@@ -90,8 +91,6 @@ Dict = classpool {
     return self
   end,
   sort = function(fn) return self.__keylist:sort(fn) end,
-  getiter = function(self, ...) return self.__iter:init(eIter.kv, ...) end,
-  getiterv = function(self, ...) return self.__iter:init(eIter.v, ...) end,
   loop = function(self, ...) return loop(self, eIter.kv, ...) end,
   loopv = function(self, ...) return loop(self, eIter.v, ...) end,
 }
