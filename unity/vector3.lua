@@ -11,7 +11,8 @@ local project = function(v1, v2)
 end
 
 local Vector3
-Vector3 = classpool({
+Vector3 = classpool {
+  __cname = 'Vector3',
   new = function(self, x, y, z) self:set(x, y, z) end,
   init = function(self, x, y, z) self:set(x, y, z) end,
   clone = function(self) return Vector3.Clone(self) end,
@@ -99,7 +100,7 @@ Vector3 = classpool({
   __div = function(v1, f) return v1:clone():div(f) end,
   __unm = function(vec) return vec:clone():unm() end,
   __eq = function(v1, v2) return math.tiny(v1:sqDistance(v2)) end,
-}, 'Vector3')
+}
 
 Vector3.left = Vector3.Pool.get(-1, 0, 0)
 Vector3.right = Vector3.Pool.get(1, 0, 0)

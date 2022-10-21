@@ -69,7 +69,8 @@ end
 local valididx = function(self, idx) return isnumber(idx) and idx > 0 and idx <= self.__n end
 
 local List
-List = classpool({
+List = classpool {
+  __cname = 'List',
   new = function(self)
     self.__container = {}
     self.__n = 0
@@ -204,6 +205,6 @@ List = classpool({
     self:set(i, ej)
     self:set(j, ei)
   end,
-}, 'List')
+}
 
 return List

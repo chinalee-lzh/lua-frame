@@ -2,7 +2,8 @@ local create, resume, yield, status, running, wrap
   = coroutine.create, coroutine.resume, coroutine.yield, coroutine.status, coroutine.running, coroutine.wrap
 local pack, unpack = table.pack, table.unpack
 
-return classpool({
+return classpool {
+  __cname = 'Thread',
   new = function(self, fn)
     self.fn = ENSURE.func(fn ,gf_empty)
     self.co = create(function()
@@ -18,4 +19,4 @@ return classpool({
   start = function(self, ...) self:resume(...) end,
   status = function(self) return status(self.co) end,
   isdead = function(self) return self:status() == 'dead' end,
-}, 'Thread')
+}

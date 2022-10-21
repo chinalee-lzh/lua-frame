@@ -44,7 +44,8 @@ local delTimer = function(self, id)
 end
 local delay = function(self, ...) return addTimer(self, eType.second, ...) end
 local step = function(self, ...) return addTimer(self, eType.frame, ...) end
-return class({
+return class {
+  __cname = 'Timer',
   new = function(self, fnFrame)
     self.id = 0
     self.timers = Dict.Pool.get()
@@ -89,4 +90,4 @@ return class({
     self.rmlist:clear()
     self.processing = false
   end,
-}, 'Timer')
+}

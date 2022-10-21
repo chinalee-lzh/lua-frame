@@ -2,7 +2,8 @@ local util = import 'unity.util'
 local vector3 = import('unity.vector3').Pool
 
 local c_go
-c_go = classpool({
+c_go = classpool {
+  __cname = 'gameobject',
   new = function(self, csobj) self:init(csobj) end,
   init = function(self, csobj)
     self.csobj = csobj
@@ -65,6 +66,6 @@ c_go = classpool({
     self.scale:set(x, y, z)
     if sync then self:syncscale() end
   end
-}, 'gameobject')
+}
 
 return c_go

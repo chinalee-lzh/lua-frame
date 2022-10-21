@@ -1,7 +1,8 @@
 local sqrt, lerp, max, min = math.sqrt, math.lerp, math.max, math.min
 
 local Vector2
-Vector2 = classpool({
+Vector2 = classpool {
+  __cname = 'Vector2',
   new = function(self, x, y) self:set(x, y) end,
   init = function(self, x, y) self:set(x, y) end,
   clone = function(self) return Vector2.Clone(self) end,
@@ -75,7 +76,7 @@ Vector2 = classpool({
   __div = function(v1, f) return v1:clone():div(f) end,
   __unm = function(vec) return vec:clone():unm() end,
   __eq = function(v1, v2) return math.tiny(v1:sqDistance(v2)) end,
-}, 'Vector2')
+}
 
 Vector2.up = Vector2(0, 1)
 Vector2.down = Vector2(0, -1)

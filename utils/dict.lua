@@ -40,7 +40,8 @@ local loop = function(self, ...)
 end
 
 local Dict
-Dict = classpool({
+Dict = classpool {
+  __cname = 'Dict',
   new = function(self)
     self.__container = {}
     self.__iter = c_iter(self)
@@ -93,6 +94,6 @@ Dict = classpool({
   getiterv = function(self, ...) return self.__iter:init(eIter.v, ...) end,
   loop = function(self, ...) return loop(self, eIter.kv, ...) end,
   loopv = function(self, ...) return loop(self, eIter.v, ...) end,
-}, 'Dict')
+}
 
 return Dict
