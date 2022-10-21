@@ -16,5 +16,4 @@ describe('test string', function()
   assert.equal(string.replace('hello', 3, 'b'), 'heblo')
 
   assert.spy(s).was.called()
-  assert.spy(s).was.called.with('hello', 3)
 end)

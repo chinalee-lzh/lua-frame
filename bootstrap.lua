@@ -1,12 +1,12 @@
 dofile 'libs/import.lua'
 
-import 'libs.type'
-import 'libs.ensure'
-import 'libs.function'
-import 'libs.string'
-import 'libs.table'
-import 'libs.math'
-import 'libs.class'
+dofile 'libs.type'
+dofile 'libs.ensure'
+dofile 'libs.function'
+dofile 'libs.string'
+dofile 'libs.table'
+dofile 'libs.math'
+dofile 'libs.class'
 
 setmetatable(_G, {
   __index = function(_, k)

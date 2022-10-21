@@ -71,10 +71,18 @@ local valididx = function(self, idx) return isnumber(idx) and idx > 0 and idx <=
 local List
 List = classpool {
   __cname = 'List',
-  new = function(self)
+  new = function(self, ...)
     self.__container = {}
     self.__n = 0
-    self.__iter = c_iter.Pool.get(self)
+    self.__iter = c_iter(self)
+    self:init(...)
+  end,
+  init = function(self, ...)
+    local n = select('#', ...)
+    for i = 1, n do
+      local e = select(i, ...)
+      self:insert(e)
+    end
   end,
   free = function(self)
     self:clear()
@@ -156,19 +164,12 @@ List = classpool {
     self:clear()
     return self:joinarray(array, i, j)
   end,
-  copyArgs = function(self, ...)
-    self:clear()
-    local n = select('#', ...)
-    for i = 1, n do
-      self:add(select(i, ...))
-    end
-    return self
-  end,
   pack = function(self, ...)
     self:clear()
     local n = select('#', ...)
     for i = 1, n do
-      self:add(select(i, ...))
+      local e = select(i, ...)
+      self:add(e)
     end
     return self
   end,

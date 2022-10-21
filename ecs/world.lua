@@ -4,7 +4,8 @@ local createFilter = function(prefix, seperator, ...)
   local n = select('#', ...)
   local l = List.Pool.get()
   for i = 1, n do
-    l:add(string.format('(entity:hascom(%s))', select(i, ...)))
+    local com = select(i, ...)
+    l:add(string.format('(entity:hascom(%s))', com))
   end
   local script = string.format('return function(entity) return %s(%s)', prefix, l:concat(seperator))
   List.Pool.free(l)

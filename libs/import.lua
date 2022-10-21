@@ -1,16 +1,22 @@
 rawset(_G, 'raw_require', require)
 rawset(_G, 'require', nil)
 
-local KEY_DEFAULT = '__default'
+local raw_dofile = dofile
+function dofile(path)
+  if not path:find('.lua') then
+    path = string.format('%s.lua', path:gsub('%.', '/'))
+  end
+  return raw_dofile(path)
+end
 
+local KEY_DEFAULT = '__default'
 local cache = {}
 function import(module, category, notcache)
   category = category or KEY_DEFAULT
   cache[category] = cache[category] or {}
   local rst = cache[category][module]
   if rst == nil then
-    local path = string.format('%s.lua', module:gsub('%.', '/'))
-    rst = dofile(path)
+    rst = dofile(module)
     if not notcache then
       cache[category][module] = rst
     end
