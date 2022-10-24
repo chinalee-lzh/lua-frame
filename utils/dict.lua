@@ -83,14 +83,14 @@ Dict = classpool {
   at = function(self, idx) return self:get(self.__keylist:at(idx)) end,
   head = function(self) return self:at(1) end,
   tail = function(self) return self:at(self:size()) end,
-  copy = function(d)
+  copy = function(self, d)
     if nottable(d) then return end
     if d.__class ~= Dict then return end
     self:clear()
     for k, v in d:loop() do self:set(k, v) end
     return self
   end,
-  sort = function(fn) return self.__keylist:sort(fn) end,
+  sort = function(self, fn) return self.__keylist:sort(fn) end,
   loop = function(self, ...) return loop(self, eIter.kv, ...) end,
   loopv = function(self, ...) return loop(self, eIter.v, ...) end,
 }

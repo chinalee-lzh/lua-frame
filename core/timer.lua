@@ -5,8 +5,8 @@ local CO = import 'utils.coroutine'
 local eType = enum {'second', 'frame'}
 
 local c_item = classpool {
-  new = function(...) self:init(...) end,
-  init = function(id, type, born, interval, loop, fn, ...)
+  new = function(self, ...) self:init(...) end,
+  init = function(self, id, type, born, interval, loop, fn, ...)
     self.id = id
     self.type = type
     self.born = born
@@ -18,14 +18,14 @@ local c_item = classpool {
     self.dirty = false
   end,
   free = function(self) List.Pool.free(self.params) end,
-  update = function(delta)
+  update = function(self, delta)
     self.counter = self.counter+delta
     if self.counter < self.interval then return false end
     self.fn(self.params:unpack())
     if self.loop then self.counter = 0 end
     return true
   end,
-  setdirty = function() self.dirty = true end,
+  setdirty = function(self) self.dirty = true end,
 }
 
 local addTimer = function(self, type, interval, loop, fn, ...)

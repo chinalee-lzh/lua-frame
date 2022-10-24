@@ -106,8 +106,8 @@ function table.size(tbl)
   return cnt
 end
 local transform = function(src, dst, fn, ...)
-  if nottable(tbl) or notfunction(fn) then return end
-  for k, v in pairs(tbl) do
+  if nottable(src) or nottable(dst) or notfunction(fn) then return end
+  for k, v in pairs(src) do
     dst[k] = fn(v, ...)
   end
   return dst
@@ -151,7 +151,7 @@ iterTbl = function(tbl, cache, indent)
   if isfunction(tbl.loop) then
     a, b, c = tbl:loop()
   else
-    a, b, c = paris(tbl)
+    a, b, c = pairs(tbl)
   end
   for k, v in a, b, c do
     if notfunction(tbl.__skipdump__) or not tbl:__skipdump__(k, v) then

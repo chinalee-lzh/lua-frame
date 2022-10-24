@@ -1,3 +1,4 @@
+dofile 'libs/version.lua'
 dofile 'libs/import.lua'
 
 dofile 'libs.type'

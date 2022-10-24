@@ -9,6 +9,10 @@ function dofile(path)
   return raw_dofile(path)
 end
 
+if LUAVER.get() == 5.4 then
+  loadstring = function(...) return load(...) end
+end
+
 local KEY_DEFAULT = '__default'
 local cache = {}
 function import(module, category, notcache)
@@ -23,7 +27,6 @@ function import(module, category, notcache)
   end
   return rst
 end
-
 function clearimport(category)
   category = category or KEY_DEFAULT
   cache[category] = {}

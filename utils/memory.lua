@@ -272,7 +272,7 @@ local snapshot = {
   dump = function(self, rootname, root, findall, specificObjs)
     if notstring(rootname) then rootname = 'root' end
     if nottable(root) then root = _G end
-    if notbool(findall) then findall = false end
+    if notboolean(findall) then findall = false end
     local record = createRefRecord()
     if notnil(specificObjs) then
       local t = {}

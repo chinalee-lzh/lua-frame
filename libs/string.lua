@@ -7,10 +7,11 @@ local raw_endswith = function(str, suffix)
   if len(str) < len(suffix) then return false end
   return find(str, suffix, len(str)-len(suffix)+1, true) and true or false
 end
-local test_affixes = function(str, affixes, fn)
+local test_affixes
+test_affixes = function(str, affixes, fn)
   if isstring(affixes) then
     return fn(str, test_affixes)
-  elseif iftable(affixes) then
+  elseif istable(affixes) then
     for _, affix in ipairs(affixes) do
       if fn(str, affix) then
         return true
